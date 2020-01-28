@@ -1,0 +1,21 @@
+from pandas import read_csv
+#from numpy import set_printoptions
+from sklearn.model_selection import KFold
+from sklearn.model_selection import cross_val_score
+from sklearn.neighbors import KNeighborsClassifier
+#from pandas import set_option
+#filename = 'churn_DT.csv' #this will import the data file 
+filename = 'diabete-data.csv' #this will import the data file 
+
+names = ['pregnant','plasma','bpdia','skin','test','bmass','diapedi','age','class']
+#names = ['state', 'account_length', 'area_code', 'phone_number', 'international_plan', 'voice_mail_plan', 'number_vmail_messages', 'total_day_minutes', 'total_day_calls', 'total_day_charge', 'total_eve_minutes', 'total_eve_calls', 'total_eve_charge', 'total_night_minutes',	'total_night_calls', 'total_night_charge', 'total_intl_minutes', 'total_intl_calls', 'total_intl_charge', 'customer_service_calls', 'class_churn']
+dataframe = read_csv(filename, names=names)
+array = dataframe.values
+#splitthe data into input and output values
+X= array[:,0:8]
+Y = array[:,8]
+num_folds = 10
+kfold= KFold(n_splits= 10, random_state= 7)
+model= KNeighborsClassifier()
+result = cross_val_score(model,X, Y, cv=kfold)
+print(result.mean()*100)
